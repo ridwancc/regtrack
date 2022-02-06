@@ -19,7 +19,6 @@
       src="/images/1-480.mov"
       autoplay
       loop
-      controls
       muted
     />
   {:else}
@@ -30,7 +29,11 @@
 
 <style>
   video {
-    /* visibility: hidden; */
+    pointer-events: none;
+  }
+
+  video::-webkit-media-controls-start-playback-button {
+    display: none;
   }
   #canvasOutput {
     position: absolute;
