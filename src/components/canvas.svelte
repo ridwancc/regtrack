@@ -16,7 +16,7 @@
     <video
       bind:this={video}
       id="video"
-      src="/images/4-480.mov"
+      src="/images/1-480.mov"
       autoplay
       loop
       controls
