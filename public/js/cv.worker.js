@@ -160,7 +160,7 @@ const detectPlate = ({ msg, payload }) => {
     // Lukas Kanade parameters
     let winSize = new cv.Size(15, 15);
     let maxLevel = 2;
-    let criteria = new cv.TermCriteria(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 0.01);
+    let criteria = new cv.TermCriteria(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 0.03);
 
     try {
       // Calculate optical flow
@@ -174,15 +174,6 @@ const detectPlate = ({ msg, payload }) => {
     for (let i = 0; i < st.rows; i++) {
       if (st.data[i] === 1) {
         goodNew.push(new cv.Point(p1.data32F[i * 2], p1.data32F[i * 2 + 1]));
-      }
-    }
-
-    // if the point is outside the max distance then remove it from the goodNew list
-    for (let i = 0; i < goodNew.length; i++) {
-      const distance = Math.sqrt(Math.pow(goodNew[i].x, 2) + Math.pow(goodNew[i].y, 2));
-      if (distance > 1000) {
-        goodNew.splice(i, 1);
-        i--;
       }
     }
 
@@ -211,12 +202,21 @@ const detectPlate = ({ msg, payload }) => {
         const point = goodNew[i];
         const nextPoint = goodNew[i + 1];
         cv.circle(mask, point, 2, [0, 255, 0, 255], -1, cv.LINE_AA, 0);
-        // cv.putText(mask, i.toString(), point, cv.FONT_HERSHEY_SIMPLEX, 0.5, [0, 255, 255, 255], 1, cv.LINE_AA, false);
         if (nextPoint) {
           cv.line(mask, point, nextPoint, [0, 255, 0, 255], 2, cv.LINE_AA, 0);
         } else {
           cv.line(mask, point, goodNew[0], [0, 255, 0, 255], 2, cv.FILLED, 0);
         }
+      }
+    }
+
+    // if the point is outside the max distance then remove it from the goodNew list
+    for (let i = 0; i < goodNew.length; i++) {
+      const distance = Math.sqrt(Math.pow(goodNew[i].x, 2) + Math.pow(goodNew[i].y, 2));
+      console.log(distance);
+      if (distance > 650) {
+        goodNew.splice(i, 1);
+        i--;
       }
     }
 
