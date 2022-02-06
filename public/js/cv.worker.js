@@ -121,7 +121,6 @@ const detectPlate = ({ msg, payload }) => {
 
     // store the frame and features for tracking in the next frame
     if (p0.rows > 3) {
-      console.log(p0.rows);
       prev = {
         src: src.clone(),
         p0: p0.clone()
@@ -186,7 +185,7 @@ const detectPlate = ({ msg, payload }) => {
 
     let startAng;
     goodNew.forEach(point => {
-      var ang = Math.atan2(point.y - center.y, point.x - center.x);
+      let ang = Math.atan2(point.y - center.y, point.x - center.x);
       if (!startAng) { startAng = ang }
       else {
         if (ang < startAng) {  // ensure that all points are clockwise of the start point
@@ -197,9 +196,25 @@ const detectPlate = ({ msg, payload }) => {
     });
     goodNew.sort((a, b) => a.angle - b.angle);
 
+    // get the average distance from the center of the points
+    const pointDist = [];
+    goodNew.forEach(point => {
+      const dist = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
+      pointDist.push(dist);
+    });
+    const avgDist = pointDist.reduce((a, b) => a + b, 0) / pointDist.length;
+
+    // if a point is outside the average distance then remove it from the goodNew list
+    goodNew.forEach((point, i) => {
+      const distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
+      if (distance > avgDist * 1.05) {
+        goodNew.splice(i, 1);
+        i--;
+      }
+    });
+
     if (goodNew.length > 3) {
-      for (let i = 0; i < goodNew.length; i++) {
-        const point = goodNew[i];
+      goodNew.forEach((point, i) => {
         const nextPoint = goodNew[i + 1];
         cv.circle(mask, point, 2, [0, 255, 0, 255], -1, cv.LINE_AA, 0);
         if (nextPoint) {
@@ -207,18 +222,9 @@ const detectPlate = ({ msg, payload }) => {
         } else {
           cv.line(mask, point, goodNew[0], [0, 255, 0, 255], 2, cv.FILLED, 0);
         }
-      }
+      });
     }
 
-    // if the point is outside the max distance then remove it from the goodNew list
-    for (let i = 0; i < goodNew.length; i++) {
-      const distance = Math.sqrt(Math.pow(goodNew[i].x, 2) + Math.pow(goodNew[i].y, 2));
-      console.log(distance);
-      if (distance > 650) {
-        goodNew.splice(i, 1);
-        i--;
-      }
-    }
 
     // cv.add(src, mask, src);
 
