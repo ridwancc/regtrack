@@ -1,6 +1,6 @@
 # RegTrack
 
-This is a Svelte project that utilises the MediaStream API, OpenCV, and WebWorkers to detect and track vehicle number plates in a video stream.
+This is a Svelte project that utilises the MediaStream API, Web Worker API, and OpenCV, to detect and track vehicle number plates in a video stream.
 
 ## Installation
 ```bash
