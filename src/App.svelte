@@ -22,7 +22,7 @@
 
 <main>
   <div class="text-center mt-4 d-flex align-items-center flex-column">
-    <h1 class="text">RegTrack</h1>
+    <h1 class="text">RegView</h1>
     <p>
       This is a Svelte project that utilises the MediaStream API, Web Workers API, and OpenCV, to detect and track vehicle number plates in a video stream.
     </p>
