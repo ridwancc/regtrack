@@ -10,6 +10,7 @@
   let buffer;
   let video;
   let vrn;
+  let placement;
 
   const init = async () => {
     await cv.load();
@@ -25,14 +26,17 @@
     <p>
       This is a Svelte project that utilises the MediaStream API, Web Workers API, and OpenCV, to detect and track vehicle number plates in a video stream.
     </p>
-    <!-- <Vrn bind:vrn /> -->
+    <p>
+      Enter anything you like in the box below and select a placement on the vehicle to visualise a personalised registration.
+    </p>
+    <Vrn bind:vrn bind:placement/>
     {#await promise}
       <Spinner />
     {:then promise}
       <Camera {video} />
       <Canvas bind:canvas bind:buffer bind:video />
       {#if canvas}
-        <ImageProcessing {canvas} {buffer} {video} {vrn} />
+        <ImageProcessing {canvas} {buffer} {video} {vrn} {placement} />
       {/if}
     {/await}
   </div>
