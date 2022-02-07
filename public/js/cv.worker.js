@@ -220,11 +220,10 @@ const detectPlate = ({ msg, payload }) => {
         if (nextPoint) {
           cv.line(mask, point, nextPoint, [0, 255, 0, 255], 2, cv.LINE_AA, 0);
         } else {
-          cv.line(mask, point, goodNew[0], [0, 255, 0, 255], 2, cv.FILLED, 0);
+          cv.line(mask, point, goodNew[0], [0, 255, 0, 255], 2, cv.LINE_AA, 0);
         }
       });
     }
-
 
     // cv.add(src, mask, src);
 
@@ -248,7 +247,7 @@ const detectPlate = ({ msg, payload }) => {
       postMessage({ msg, payload: null });
     }
 
-    postMessage({ msg, payload: { imageData: imageDataFromMat(mask) } });
+    postMessage({ msg, payload: { imageData: imageDataFromMat(mask), points: goodNew } });
 
     // delete the matrices
     src.delete();
