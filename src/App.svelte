@@ -12,6 +12,7 @@
   let vrn;
   let placement;
   let details = false;
+  let demo;
 
   const showDetails = () => {
     details = !details;
@@ -42,18 +43,25 @@
             Enter anything you like in the box below and select a placement on
             the vehicle to visualise a personalised registration.
           </p>
+          <p>
+            If you would like to switch between the demo and your own video, you will need to refresh the page.
+          </p>
         </div>
       {:else}
         <p on:click={showDetails}>Project Details ▼</p>
       {/if}
     </div>
 
-    <Vrn bind:vrn bind:placement />
+    {#if demo == false}
+      <Vrn bind:vrn bind:placement />
+    {/if}
     {#await promise}
       <Spinner />
     {:then promise}
-      <Camera {video} />
-      <Canvas bind:canvas bind:buffer bind:video />
+      {#if demo == false}
+        <Camera {video} />
+      {/if}
+      <Canvas bind:canvas bind:buffer bind:video bind:demo />
       {#if canvas}
         <ImageProcessing {canvas} {buffer} {video} {vrn} {placement} />
       {/if}

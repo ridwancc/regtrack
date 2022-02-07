@@ -3,11 +3,11 @@
   export let buffer;
   export let video;
 
-  let demo = false;
+  export let demo = false;
 </script>
 
 <div>
-  <p class="d-inline me-1">Show demo</p>
+  <p class="d-inline mt-2">Show demo</p>
   <input bind:checked={demo} type="checkbox" class="mt-2 d-inline" />
 </div>
 <div class="output-container">
