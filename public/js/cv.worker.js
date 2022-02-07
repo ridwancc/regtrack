@@ -157,13 +157,13 @@ const detectPlate = ({ msg, payload }) => {
     let mask = new cv.Mat.zeros(src.size(), src.type())
 
     // Lukas Kanade parameters
-    let winSize = new cv.Size(100, 100);
-    let maxLevel = 3;
+    let winSizee = new cv.Size(50, 50);
+    let maxLevel = 2;
     let criteria = new cv.TermCriteria(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 0.01);
 
     try {
       // Calculate optical flow
-      cv.calcOpticalFlowPyrLK(prevGrey, frameGrey, prev.p0, p1, st, err, winSize, maxLevel, criteria, 1);
+      cv.calcOpticalFlowPyrLK(prevGrey, frameGrey, prev.p0, p1, st, err, winSizee, maxLevel, criteria, 1);
     } catch (err) {
       console.log(err);
     }
@@ -201,7 +201,8 @@ const detectPlate = ({ msg, payload }) => {
     // if a point is outside the average distance then remove it from the goodNew list
     goodNew.forEach((point, i) => {
       const distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
-      if (distance < 0.95 || distance > avgDist * 1.05 ) {
+      if (distance < 0.95 || distance > avgDist * 1.05) {
+        console.log(`removing point ${i}`, distance)
         goodNew.splice(i, 1);
         i--;
       }
