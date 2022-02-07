@@ -183,18 +183,12 @@ const detectPlate = ({ msg, payload }) => {
     const cx = (goodNew[0].x + goodNew[goodNew.length - 1].x) / 2;
     const center = { x: cx, y: cy };
 
-    let startAng;
-    goodNew.forEach(point => {
-      let ang = Math.atan2(point.y - center.y, point.x - center.x);
-      if (!startAng) { startAng = ang }
-      else {
-        if (ang < startAng) {  // ensure that all points are clockwise of the start point
-          ang += Math.PI * 2;
-        }
-      }
-      point.angle = ang; // add the angle to the point
+    // sort the points in clockwise with center as the origin starting from the top left
+    goodNew.sort((a, b) => {
+      const angleA = Math.atan2(a.y - center.y, a.x - center.x);
+      const angleB = Math.atan2(b.y - center.y, b.x - center.x);
+      return angleA - angleB;
     });
-    goodNew.sort((a, b) => a.angle - b.angle);
 
     // get the average distance from the center of the points
     const pointDist = [];
