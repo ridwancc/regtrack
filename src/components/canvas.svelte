@@ -2,14 +2,16 @@
   export let canvas;
   export let buffer;
   export let video;
-
+  export let streaming;
   export let demo = false;
 </script>
 
-<div>
-  <p class="d-inline mt-2">Show demo</p>
-  <input bind:checked={demo} type="checkbox" class="mt-2 d-inline" />
-</div>
+{#if (streaming == false)}
+  <div>
+    <p class="d-inline mt-2">Show demo</p>
+    <input bind:checked={demo} type="checkbox" class="mt-2 d-inline" />
+  </div>
+{/if}
 <div class="output-container">
   <canvas bind:this={canvas} id="canvasOutput" />
   {#if demo}

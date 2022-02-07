@@ -1,8 +1,7 @@
 <script>
   export let camera;
   export let video;
-
-  let streaming = false;
+  export let streaming = false;
 
   const setStreaming = (value) => {
     streaming = value;

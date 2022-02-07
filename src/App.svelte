@@ -11,9 +11,10 @@
   let video;
   let vrn;
   let placement;
-  let details = false;
   let demo;
-
+  let streaming;
+  let details = false;
+  
   const showDetails = () => {
     details = !details;
   };
@@ -44,7 +45,8 @@
             the vehicle to visualise a personalised registration.
           </p>
           <p>
-            If you would like to switch between the demo and your own video, you will need to refresh the page.
+            If you would like to switch between the demo and your own video, you
+            will need to refresh the page.
           </p>
         </div>
       {:else}
@@ -52,16 +54,16 @@
       {/if}
     </div>
 
-    {#if demo == false}
+    {#if demo == false && streaming == false}
       <Vrn bind:vrn bind:placement />
     {/if}
     {#await promise}
       <Spinner />
     {:then promise}
       {#if demo == false}
-        <Camera {video} />
+        <Camera {video} bind:streaming />
       {/if}
-      <Canvas bind:canvas bind:buffer bind:video bind:demo />
+      <Canvas bind:canvas bind:buffer bind:video bind:demo {streaming} />
       {#if canvas}
         <ImageProcessing {canvas} {buffer} {video} {vrn} {placement} />
       {/if}
