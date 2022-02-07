@@ -21,7 +21,7 @@
   };
 
   const image = new Image();
-  image.src = "/images/front-plate.jpg";
+  image.src = "/images/front-plate.png";
 
   beforeUpdate(() => {
     video.addEventListener("loadeddata", async () => {
