@@ -3,7 +3,6 @@
   export let video;
 
   let streaming = false;
-  let devices = [];
 
   const setStreaming = (value) => {
     streaming = value;
@@ -14,16 +13,17 @@
       console.log("enumerateDevices() not supported.");
     }
     try {
-      const device = await navigator.mediaDevices.enumerateDevices();
-      device.forEach((camera) => {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const deviceList = [];
+      devices.forEach((camera) => {
         if (camera.kind === "videoinput") {
-          devices.push(camera);
+          deviceList.push(camera);
         }
       });
+      return deviceList;
     } catch (err) {
       console.log("failed to enumerate cameras");
     }
-    return;
   };
 
   const stopStream = (stream) => {
@@ -67,7 +67,7 @@
       {#if !streaming}
         {#await promise}
           <option value="none">Loading available cameras</option>
-        {:then promise}
+        {:then devices}
           <option value="none">Select a camera</option>
           {#each devices as device}
             <option value={device.deviceId}>{device.label}</option>
