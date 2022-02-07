@@ -159,7 +159,7 @@ const detectPlate = ({ msg, payload }) => {
     // Lukas Kanade parameters
     let winSize = new cv.Size(15, 15);
     let maxLevel = 2;
-    let criteria = new cv.TermCriteria(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 0.03);
+    let criteria = new cv.TermCriteria(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 0.01);
 
     try {
       // Calculate optical flow
@@ -356,7 +356,6 @@ onmessage = (e) => {
     case 'load': {
       // Import Webassembly script
       self.importScripts('./opencv.js')
-      // self.importScripts('./opencv.js')
       waitForOpenCV(function (success) {
         if (success) postMessage({ msg: e.data.msg })
         else throw new Error('Error on loading OpenCV')
