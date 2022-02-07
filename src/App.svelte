@@ -11,6 +11,11 @@
   let video;
   let vrn;
   let placement;
+  let details = false;
+
+  const showDetails = () => {
+    details = !details;
+  };
 
   const init = async () => {
     await cv.load();
@@ -23,13 +28,27 @@
 <main>
   <div class="text-center mt-4 d-flex align-items-center flex-column">
     <h1 class="text">RegView</h1>
-    <p>
-      This is a Svelte project that utilises the MediaStream API, Web Workers API, and OpenCV, to detect and track vehicle number plates in a video stream.
-    </p>
-    <p>
-      Enter anything you like in the box below and select a placement on the vehicle to visualise a personalised registration.
-    </p>
-    <Vrn bind:vrn bind:placement/>
+
+    <div class="about">
+      {#if details}
+        <p on:click={showDetails}>Project Details ▲</p>
+        <div class="details show">
+          <p>
+            This is a Svelte project that utilises the MediaStream API, Web
+            Workers API, and OpenCV, to detect and track vehicle number plates
+            in a video stream.
+          </p>
+          <p>
+            Enter anything you like in the box below and select a placement on
+            the vehicle to visualise a personalised registration.
+          </p>
+        </div>
+      {:else}
+        <p on:click={showDetails}>Project Details ▼</p>
+      {/if}
+    </div>
+
+    <Vrn bind:vrn bind:placement />
     {#await promise}
       <Spinner />
     {:then promise}
@@ -54,6 +73,12 @@
     font-size: 4em;
     font-weight: 400;
     color: steelblue;
+  }
+
+  .details {
+    border: 2px solid gainsboro;
+    padding: 1rem;
+    border-radius: 10px;
   }
 
   @media (min-width: 640px) {
