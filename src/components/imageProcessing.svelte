@@ -4,24 +4,33 @@
   export let buffer;
   export let video;
   export let vrn;
+  export let placement;
   import cv from "../services/cv.js";
   import { beforeUpdate } from "svelte";
+
+  let image;
 
   /**
    * Returns the image data of a number plate and its coordinates
    * @param imageData
-   * @param vrn
    */
-  const detectPlate = async (imageData, vrn) => {
-    const response = await cv.detectPlate({ imageData, vrn });
+  const detectPlate = async (imageData) => {
+    const response = await cv.detectPlate({ imageData });
     if (response.data.payload != null) {
       return response.data.payload;
     }
     return null;
   };
 
-  const image = new Image();
-  image.src = "/images/front-plate.png";
+  $: if (vrn) {
+    image = getPersonalisedRegImage(vrn, placement);
+  }
+
+  const getPersonalisedRegImage = (vrn, placement) => {
+    const image = new Image();
+    image.src = `https://nqtzc63cm0.execute-api.eu-west-2.amazonaws.com/dev/v1/images/licence/${placement}/${vrn}.png`;
+    return image;
+  }
 
   beforeUpdate(() => {
     video.addEventListener("loadeddata", async () => {
@@ -42,8 +51,7 @@
         ctxOutput.clearRect(0, 0, width, height);
 
         if (plate) {
-          // ctxOutput.putImageData(plate.imageData, 0, 0, 0, 0, width, height);
-          if (plate.points && plate.points.length > 3) {
+          if (plate.points && plate.points.length > 3 && vrn) {
             ctxOutput.drawImage(video, 0, 0, width, height);
             const geometry = calculateGeometry(
               image,
@@ -53,6 +61,8 @@
               { x: plate.points[3].x, y: plate.points[3].y },
               );
             drawStretched(ctxOutput, image, geometry, false);
+          } else {
+            ctxOutput.putImageData(plate.imageData, 0, 0, 0, 0, width, height);
           }
         }
 
