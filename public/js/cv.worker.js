@@ -201,7 +201,7 @@ const detectPlate = ({ msg, payload }) => {
     // if a point is outside the average distance then remove it from the goodNew list
     goodNew.forEach((point, i) => {
       const distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
-      if (distance > avgDist * 1.08) {
+      if (distance > avgDist * 1.05) {
         goodNew.splice(i, 1);
         i--;
       }
