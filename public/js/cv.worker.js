@@ -45,7 +45,7 @@ let prev;
  */
 const detectPlate = ({ msg, payload }) => {
   const startTime = performance.now()
-  const { imageData, vrn } = payload
+  const { imageData } = payload
 
   // create matrice from the image data
   const src = cv.matFromImageData(imageData)
@@ -176,7 +176,7 @@ const detectPlate = ({ msg, payload }) => {
       }
     }
 
-    // sort the points in clockwise 
+    // Calculate the centre point
     goodNew.sort((a, b) => a.y - b.y);
     const cy = (goodNew[0].y + goodNew[goodNew.length - 1].y) / 2;
     goodNew.sort((a, b) => b.x - a.x);
