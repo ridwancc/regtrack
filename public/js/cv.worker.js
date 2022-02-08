@@ -158,7 +158,7 @@ const detectPlate = ({ msg, payload }) => {
 
     // Lukas Kanade parameters
     let winSizee = new cv.Size(100, 100);
-    let maxLevel = 3;
+    let maxLevel = 10;
     let criteria = new cv.TermCriteria(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 30, 0.01);
 
     try {
