@@ -33,7 +33,7 @@
 
     <div class="about">
       {#if details}
-        <p on:click={showDetails}>Project Details ▲</p>
+        <p class="details-text" on:click={showDetails}>Project Details ▲</p>
         <div class="details show">
           <p>
             This is a Svelte project that utilises the MediaStream API, Web
@@ -50,7 +50,7 @@
           </p>
         </div>
       {:else}
-        <p on:click={showDetails}>Project Details ▼</p>
+        <p class="details-text" on:click={showDetails}>Project Details ▼</p>
       {/if}
     </div>
 
@@ -82,6 +82,14 @@
     text-transform: uppercase;
     font-size: 4em;
     font-weight: 400;
+    color: steelblue;
+  }
+
+  .details-text {
+    cursor: pointer;
+  }
+
+  .details-text:hover {
     color: steelblue;
   }
 
