@@ -208,6 +208,15 @@ const detectPlate = ({ msg, payload }) => {
       }
     });
 
+    // get the height
+    const leftLine = Math.abs(goodNew[0].y - goodNew[goodNew.length - 1].y);
+    const rightLine = Math.abs(goodNew[1].y - goodNew[goodNew.length - 2].y);
+
+    // if the height of both lines do not match then remove the points
+    if (leftLine > rightLine * 1.1 || rightLine > leftLine * 1.1) {
+      goodNew.splice(0, 1);
+    }
+
     if (goodNew.length > 3) {
       goodNew.forEach((point, i) => {
         const nextPoint = goodNew[i + 1];
