@@ -2,24 +2,30 @@
   export let vrn = "";
   export let placement = "front";
 
+  let form;
+
+  $: if (form) {
+    console.log('form exists');
+    form.addEventListener('focusout', e => {
+      console.log('focusout');
+      vrn = e.target.value.toUpperCase();
+    })
+  }
+
   const handleSelect = (e) => {
       placement = e.target.value;
   }
-
-  const handleChange = (e) => {
-    vrn = e.target.value.toUpperCase();
-  };
 </script>
 
 <div class="container mt-4">
   <div class="row">
     <input
+      bind:this={form}
       maxLength="7"
       type="text"
       placeholder="Enter your VRN"
       class="text-center text-uppercase pt-2 active"
       value={vrn}
-      on:change={e => handleChange(e)}
     />
     <div class="placement-row mt-2">
       <label>
