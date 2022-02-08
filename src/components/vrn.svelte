@@ -5,9 +5,7 @@
   let form;
 
   $: if (form) {
-    console.log('form exists');
     form.addEventListener('focusout', e => {
-      console.log('focusout');
       vrn = e.target.value.toUpperCase();
     })
   }
