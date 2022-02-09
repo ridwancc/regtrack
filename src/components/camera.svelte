@@ -13,7 +13,7 @@
     }
     try {
       const permissions = await navigator.mediaDevices.getUserMedia({
-        audio: true,
+        video: true,
       });
       if (permissions) {
         const devices = await navigator.mediaDevices.enumerateDevices();
