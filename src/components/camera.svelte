@@ -12,14 +12,19 @@
       console.log("enumerateDevices() not supported.");
     }
     try {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const deviceList = [];
-      devices.forEach((camera) => {
-        if (camera.kind === "videoinput") {
-          deviceList.push(camera);
-        }
+      const permissions = await navigator.mediaDevices.getUserMedia({
+        audio: true,
       });
-      return deviceList;
+      if (permissions) {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const deviceList = [];
+        devices.forEach((camera) => {
+          if (camera.kind === "videoinput") {
+            deviceList.push(camera);
+          }
+        });
+        return deviceList;
+      }
     } catch (err) {
       console.log("failed to enumerate cameras");
     }
