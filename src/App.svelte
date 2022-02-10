@@ -14,6 +14,11 @@
   let demo;
   let streaming;
   let details = false;
+  let vrnInput = false;
+
+  $: if (vrn && vrn.length > 2) {
+    vrnInput = true;
+  }
   
   const showDetails = () => {
     details = !details;
@@ -54,13 +59,13 @@
       {/if}
     </div>
 
-    {#if demo == false && streaming == false}
+    {#if demo == false}
       <Vrn bind:vrn bind:placement />
     {/if}
     {#await promise}
       <Spinner />
     {:then promise}
-      {#if demo == false}
+      {#if demo == false && vrnInput == true}
         <Camera {video} bind:streaming />
       {/if}
       <Canvas bind:canvas bind:buffer bind:video bind:demo {streaming} />
