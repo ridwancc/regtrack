@@ -30,7 +30,7 @@
     const image = new Image();
     image.src = `https://nqtzc63cm0.execute-api.eu-west-2.amazonaws.com/dev/v1/images/licence/${placement}/${vrn}.png`;
     return image;
-  }
+  };
 
   beforeUpdate(() => {
     video.addEventListener("loadeddata", async () => {
@@ -50,20 +50,15 @@
         // clear the output canvas
         ctxOutput.clearRect(0, 0, width, height);
 
-        if (plate) {
-          if (plate.points && plate.points.length > 3 && vrn) {
-            ctxOutput.drawImage(video, 0, 0, width, height);
-            const geometry = calculateGeometry(
-              image,
-              { x: plate.points[0].x, y: plate.points[0].y },
-              { x: plate.points[1].x, y: plate.points[1].y },
-              { x: plate.points[2].x, y: plate.points[2].y },
-              { x: plate.points[3].x, y: plate.points[3].y },
-              );
-            drawStretched(ctxOutput, image, geometry, false);
-          } else {
-            ctxOutput.putImageData(plate.imageData, 0, 0, 0, 0, width, height);
-          }
+        if (plate && plate.points && plate.points.length > 3 && vrn) {
+          const geometry = calculateGeometry(
+            image,
+            { x: plate.points[0].x, y: plate.points[0].y },
+            { x: plate.points[1].x, y: plate.points[1].y },
+            { x: plate.points[2].x, y: plate.points[2].y },
+            { x: plate.points[3].x, y: plate.points[3].y }
+          );
+          drawStretched(ctxOutput, image, geometry, false);
         }
 
         if (video.paused || video.ended) {

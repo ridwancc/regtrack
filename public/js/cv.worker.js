@@ -217,17 +217,17 @@ const detectPlate = ({ msg, payload }) => {
       goodNew.splice(0, 1);
     }
 
-    if (goodNew.length > 3) {
-      goodNew.forEach((point, i) => {
-        const nextPoint = goodNew[i + 1];
-        cv.circle(mask, point, 2, [0, 255, 0, 255], -1, cv.LINE_AA, 0);
-        if (nextPoint) {
-          cv.line(mask, point, nextPoint, [0, 255, 0, 255], 2, cv.LINE_AA, 0);
-        } else {
-          cv.line(mask, point, goodNew[0], [0, 255, 0, 255], 2, cv.LINE_AA, 0);
-        }
-      });
-    }
+    // if (goodNew.length > 3) {
+    //   goodNew.forEach((point, i) => {
+    //     const nextPoint = goodNew[i + 1];
+    //     cv.circle(mask, point, 2, [0, 255, 0, 255], -1, cv.LINE_AA, 0);
+    //     if (nextPoint) {
+    //       cv.line(mask, point, nextPoint, [0, 255, 0, 255], 2, cv.LINE_AA, 0);
+    //     } else {
+    //       cv.line(mask, point, goodNew[0], [0, 255, 0, 255], 2, cv.LINE_AA, 0);
+    //     }
+    //   });
+    // }
 
     // cv.add(src, mask, src);
 
@@ -251,7 +251,7 @@ const detectPlate = ({ msg, payload }) => {
       postMessage({ msg, payload: null });
     }
 
-    postMessage({ msg, payload: { imageData: imageDataFromMat(mask), points: goodNew } });
+    postMessage({ msg, payload: { points: goodNew } });
 
     // delete the matrices
     src.delete();
