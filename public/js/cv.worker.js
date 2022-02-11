@@ -53,7 +53,7 @@ const detectPlate = ({ msg, payload }) => {
   if (!prev) {
     // haarcascade classifier
     const detections = new cv.RectVector();
-    classifier.detectMultiScale(src, detections, 1.3, 3)
+    classifier.detectMultiScale(src, detections, 1.1, 3)
 
     // get the plate rect
     const rect = getPlateRect(detections)
