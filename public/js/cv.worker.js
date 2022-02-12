@@ -129,7 +129,6 @@ const detectPlate = ({ msg, payload }) => {
 
     postMessage({ msg, payload: { imageData: imageDataFromMat(mask) } });
 
-    src.delete()
     plate.delete()
     detections.delete()
     canny.delete()
@@ -254,7 +253,6 @@ const detectPlate = ({ msg, payload }) => {
     postMessage({ msg, payload: { points: goodNew } });
 
     // delete the matrices
-    src.delete();
     frameGrey.delete()
     prevGrey.delete()
     p1.delete()
@@ -262,7 +260,7 @@ const detectPlate = ({ msg, payload }) => {
     err.delete()
     mask.delete()
   }
-
+  src.delete()
   console.log(`detectPlate took ${performance.now() - startTime}ms`)
 }
 
