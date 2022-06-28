@@ -28,7 +28,7 @@
 
   const getPersonalisedRegImage = (vrn, placement) => {
     const image = new Image();
-    image.src = `https://nqtzc63cm0.execute-api.eu-west-2.amazonaws.com/dev/v1/images/licence/${placement}/${vrn}.png`;
+    image.src = '/images/front-plate.png';
     return image;
   };
 
